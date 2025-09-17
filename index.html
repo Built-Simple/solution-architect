@@ -165,6 +165,13 @@
     <div class="container">
         <h1>SOLUTION ARCHITECT</h1>
         <p class="tagline">Stop downloading tools. Start explaining problems. Let AI figure it out.</p>
+        
+        <div style="background: #0a0a0a; border: 1px solid #00FF00; padding: 10px; margin: 20px 0; text-align: center;">
+            <strong>WORKFLOW:</strong> 
+            <span style="color: #00FF00;">Step 1: Solution Architect</span> → 
+            <a href="https://built-simple.github.io/project-setup/" style="color: #008800;">Step 2: Project Setup</a> → 
+            <a href="https://built-simple.github.io/todo-generator/" style="color: #008800;">Step 3: Todo Generator</a>
+        </div>
 
         <form id="problemForm">
             <div class="section">
@@ -251,6 +258,8 @@
 
         <div id="output">
             <button onclick="copyToClipboard()" class="copy-button">Copy This Entire Prompt</button>
+            <button onclick="downloadSolution()" style="background: #008800;">Download as Text File</button>
+            <button onclick="goToStep2()" style="background: #0066FF;">Next: Go to Project Setup →</button>
             <div id="prompt-content"></div>
         </div>
     </div>
@@ -387,6 +396,13 @@ Be brutally honest. If this is too complex for my skill level or there's a simpl
             // Save the data
             saveForLater();
 
+            // Save the generated solution for next step
+            const solutionData = {
+                solution: prompt,
+                timestamp: new Date().toISOString()
+            };
+            localStorage.setItem('builtsimple-solution', JSON.stringify(solutionData));
+
             // Send to your analytics endpoint (uncomment when ready)
             /*
             const analytics = {
@@ -418,6 +434,23 @@ Be brutally honest. If this is too complex for my skill level or there's a simpl
                     button.textContent = originalText;
                 }, 2000);
             });
+        }
+
+        function downloadSolution() {
+            const promptText = document.getElementById('prompt-content').textContent;
+            const blob = new Blob([promptText], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'solution-architect-output.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        function goToStep2() {
+            window.open('https://built-simple.github.io/project-setup/', '_blank');
         }
     </script>
 </body>
