@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Built Simple - Solution Architect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #00FF00;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #00FF00;
+            margin-bottom: 10px;
+            font-size: 2em;
+            text-shadow: 0 0 10px #00FF00;
+        }
+
+        .tagline {
+            color: #008800;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #00FF00;
+            font-weight: bold;
+        }
+
+        textarea, input, select {
+            width: 100%;
+            background: #111;
+            color: #00FF00;
+            border: 1px solid #00FF00;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #00FF00;
+            box-shadow: 0 0 5px #00FF00;
+        }
+
+        .checkbox-group {
+            margin: 10px 0;
+        }
+
+        .checkbox-group label {
+            display: inline-block;
+            margin-right: 20px;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+
+        input[type="checkbox"] {
+            width: auto;
+            margin-right: 5px;
+        }
+
+        button {
+            background: #00FF00;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px 10px 20px 0;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #000;
+            color: #00FF00;
+            border: 2px solid #00FF00;
+        }
+
+        #output {
+            background: #0a0a0a;
+            border: 2px solid #00FF00;
+            padding: 20px;
+            margin-top: 30px;
+            white-space: pre-wrap;
+            display: none;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        #output.show {
+            display: block;
+        }
+
+        .copy-button {
+            background: #008800;
+        }
+
+        .hint {
+            color: #008800;
+            font-size: 0.85em;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .rage-meter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .rage-meter span {
+            color: #008800;
+        }
+
+        #rage-value {
+            color: #00FF00;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .saved-message {
+            color: #00FF00;
+            padding: 10px;
+            border: 1px solid #00FF00;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .saved-message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SOLUTION ARCHITECT</h1>
+        <p class="tagline">Stop downloading tools. Start explaining problems. Let AI figure it out.</p>
+
+        <form id="problemForm">
+            <div class="section">
+                <label for="problem">What Problem Are You Trying to Solve?</label>
+                <textarea id="problem" name="problem" placeholder="Be specific. Example: 'Every Monday I spend 3 hours copying emails to a spreadsheet. Then I manually text each customer. It's killing my productivity.'"></textarea>
+                <p class="hint">The more detail, the better the solution.</p>
+            </div>
+
+            <div class="section">
+                <label for="cost">What's This Problem Costing You?</label>
+                <textarea id="cost" name="cost" placeholder="Time: '3 hours every Monday'&#10;Money: 'Paying $200/month for software that barely works'&#10;Sanity: 'I've considered hiring someone just to handle this'&#10;Customers: 'Lost 2 clients last month because I forgot to remind them'"></textarea>
+            </div>
+
+            <div class="section">
+                <label for="dream">What Would 'Fixed' Look Like?</label>
+                <textarea id="dream" name="dream" placeholder="In a perfect world... Example: 'This happens automatically. I never think about it again. Customers get reminded. I get paid. Everyone's happy.'"></textarea>
+                <p class="hint">Dream big. We'll figure out what's actually possible.</p>
+            </div>
+
+            <div class="section">
+                <label>Frustration Level</label>
+                <div class="rage-meter">
+                    <span>Annoyed</span>
+                    <input type="range" id="rage" name="rage" min="1" max="10" value="5">
+                    <span>DESPERATE</span>
+                    <span id="rage-value">5</span>
+                </div>
+            </div>
+
+            <div class="section">
+                <label>What Tools Do You Already Have? (Check all that apply)</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="tools" value="Google Workspace"> Google Workspace (Gmail, Sheets, etc.)</label>
+                    <label><input type="checkbox" name="tools" value="Microsoft Office"> Microsoft Office/365</label>
+                    <label><input type="checkbox" name="tools" value="Just Computer"> Just My Computer</label>
+                    <label><input type="checkbox" name="tools" value="WordPress"> WordPress Site</label>
+                    <label><input type="checkbox" name="tools" value="Shopify"> Shopify/E-commerce</label>
+                    <label><input type="checkbox" name="tools" value="Nothing"> Literally Nothing</label>
+                </div>
+                <textarea id="other-tools" name="other-tools" placeholder="Other tools you're stuck with:"></textarea>
+            </div>
+
+            <div class="section">
+                <label for="budget">Budget Reality Check</label>
+                <select id="budget" name="budget">
+                    <option value="0">$0 - Must be completely free</option>
+                    <option value="10">$10/month max - Coffee budget</option>
+                    <option value="50">$50/month - If it really works</option>
+                    <option value="100">$100/month - This problem is important</option>
+                    <option value="unlimited">Just make it work - Budget flexible</option>
+                    <option value="build">I'd rather build it myself for free</option>
+                </select>
+            </div>
+
+            <div class="section">
+                <label for="time">How Much Time Can You Spend Building?</label>
+                <select id="time" name="time">
+                    <option value="10min">10 minutes - Need a quick fix</option>
+                    <option value="1hour">1 hour - Let's solve this now</option>
+                    <option value="today">Rest of today - Ready to tackle this</option>
+                    <option value="weekend">This weekend - Time to build properly</option>
+                    <option value="forever">However long it takes - Committed to fixing this</option>
+                </select>
+            </div>
+
+            <div class="section">
+                <label for="tried">What Have You Already Tried? (Optional)</label>
+                <textarea id="tried" name="tried" placeholder="Example: 'Tried Zapier but it costs $100/month. Tried hiring someone but they wanted $5000. Tried ignoring it but lost customers.'"></textarea>
+            </div>
+
+            <div class="section">
+                <label for="email">Email (Optional - Only if you want the solution emailed)</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com">
+                <p class="hint">We don't spam. We barely email when we should.</p>
+            </div>
+
+            <button type="button" onclick="generatePrompt()">Generate My Solution Prompt</button>
+            <button type="button" onclick="saveForLater()" style="background: #666;">Save Progress</button>
+        </form>
+
+        <div id="saved-message" class="saved-message">
+            ✓ Saved to your browser. Refresh anytime to continue.
+        </div>
+
+        <div id="output">
+            <button onclick="copyToClipboard()" class="copy-button">Copy This Entire Prompt</button>
+            <div id="prompt-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // Update rage value display
+        document.getElementById('rage').addEventListener('input', function(e) {
+            document.getElementById('rage-value').textContent = e.target.value;
+        });
+
+        // Load saved data if it exists
+        window.addEventListener('load', function() {
+            const saved = localStorage.getItem('builtsimple-problem');
+            if (saved) {
+                const data = JSON.parse(saved);
+                document.getElementById('problem').value = data.problem || '';
+                document.getElementById('cost').value = data.cost || '';
+                document.getElementById('dream').value = data.dream || '';
+                document.getElementById('rage').value = data.rage || 5;
+                document.getElementById('rage-value').textContent = data.rage || 5;
+                document.getElementById('budget').value = data.budget || '0';
+                document.getElementById('time').value = data.time || '1hour';
+                document.getElementById('tried').value = data.tried || '';
+                document.getElementById('other-tools').value = data.otherTools || '';
+                document.getElementById('email').value = data.email || '';
+            }
+        });
+
+        function saveForLater() {
+            const data = {
+                problem: document.getElementById('problem').value,
+                cost: document.getElementById('cost').value,
+                dream: document.getElementById('dream').value,
+                rage: document.getElementById('rage').value,
+                budget: document.getElementById('budget').value,
+                time: document.getElementById('time').value,
+                tried: document.getElementById('tried').value,
+                otherTools: document.getElementById('other-tools').value,
+                email: document.getElementById('email').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            localStorage.setItem('builtsimple-problem', JSON.stringify(data));
+            
+            // Show saved message
+            document.getElementById('saved-message').classList.add('show');
+            setTimeout(() => {
+                document.getElementById('saved-message').classList.remove('show');
+            }, 3000);
+
+            // Also send to your analytics if you want
+            // fetch('your-endpoint', {method: 'POST', body: JSON.stringify(data)});
+        }
+
+        function generatePrompt() {
+            const problem = document.getElementById('problem').value;
+            const cost = document.getElementById('cost').value;
+            const dream = document.getElementById('dream').value;
+            const rage = document.getElementById('rage').value;
+            const budget = document.getElementById('budget').value;
+            const time = document.getElementById('time').value;
+            const tried = document.getElementById('tried').value;
+            const otherTools = document.getElementById('other-tools').value;
+            const email = document.getElementById('email').value;
+
+            // Get checked tools
+            const tools = Array.from(document.querySelectorAll('input[name="tools"]:checked'))
+                .map(cb => cb.value)
+                .join(', ');
+
+            if (!problem) {
+                alert("Please describe the problem you're trying to solve");
+                return;
+            }
+
+            const prompt = `I need help figuring out the simplest way to solve this problem.
+
+MY PROBLEM:
+${problem}
+
+WHAT THIS IS COSTING ME:
+${cost}
+
+Frustration Level: ${rage}/10
+
+WHAT "FIXED" LOOKS LIKE:
+${dream}
+
+TOOLS I ALREADY HAVE:
+${tools}
+${otherTools ? 'Other tools: ' + otherTools : ''}
+
+BUDGET REALITY:
+${budget === '0' ? 'Must be completely free' : 
+  budget === '10' ? '$10/month maximum' :
+  budget === '50' ? '$50/month if it works' :
+  budget === '100' ? '$100/month - this is important' :
+  budget === 'unlimited' ? 'Budget flexible - just make it work' :
+  'Want to build it myself for free'}
+
+TIME I CAN SPEND:
+${time === '10min' ? '10 minutes max' :
+  time === '1hour' ? '1 hour today' :
+  time === 'today' ? 'Rest of today' :
+  time === 'weekend' ? 'This weekend' :
+  'However long it takes'}
+
+${tried ? 'WHAT I\'VE ALREADY TRIED:\n' + tried : ''}
+
+Based on this, please tell me:
+
+1. THE SIMPLEST SOLUTION - What's the absolute easiest way to fix this?
+
+2. WHAT TO INSTALL (if anything) - Exact downloads and links
+
+3. WHERE THIS LIVES - My computer? Cloud? Where?
+
+4. BUILD STEPS - The exact order of what to do
+
+5. QUICK TEST - The smallest version I can build in 10 minutes to see if this works
+
+6. PLAN B - If the simple way fails, what's next?
+
+7. REALITY CHECK - Should I actually build this or is there a better approach?
+
+Be brutally honest. If this is too complex for my skill level or there's a simpler solution, just tell me.`;
+
+            document.getElementById('prompt-content').textContent = prompt;
+            document.getElementById('output').classList.add('show');
+            
+            // Scroll to output
+            document.getElementById('output').scrollIntoView({ behavior: 'smooth' });
+
+            // Save the data
+            saveForLater();
+
+            // Send to your analytics endpoint (uncomment when ready)
+            /*
+            const analytics = {
+                problem: problem,
+                cost: cost,
+                rage: rage,
+                budget: budget,
+                time: time,
+                tools: tools,
+                email: email,
+                timestamp: new Date().toISOString()
+            };
+            
+            fetch('https://your-analytics-endpoint.com/collect', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(analytics)
+            });
+            */
+        }
+
+        function copyToClipboard() {
+            const promptText = document.getElementById('prompt-content').textContent;
+            navigator.clipboard.writeText(promptText).then(() => {
+                const button = document.querySelector('.copy-button');
+                const originalText = button.textContent;
+                button.textContent = '✓ Copied to Clipboard!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
